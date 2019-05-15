@@ -3,20 +3,23 @@ import random
 
 def main_Menu():
     looper = True
-    gameNumber = 1 
+    gameNumber = 0 
     play = str(input("Do you want to play a game?\t"))
     play = play.lower()
     if ((play == 'yes') or (play == 'y')):
+        gameNumber += 1
         name = str(input("What name would you like to go by?\n"))
         while looper == True:
             userChoice = getChoice() #int
             npcChoice = npc_choice() #int
-            FileOut(compare_choices(npcChoice, userChoice), name, gameNumber)
+            game = compare_choices(npcChoice, userChoice)
+            FileOut(game, name, gameNumber)
             play_again = str(input("Do you want to play again\t"))
             if play_again.lower == 'yes' or play_again == 'y':
                 gameNumber+=1
             else:
-                FileIn(name)
+                if gameNumber > 0:
+                    FileIn(name)
                 looper = False 
                 quit()
     else:
@@ -26,17 +29,26 @@ def main_Menu():
             
 def getChoice():
     Int_userChoice = 0
-    userChoice = str(input("Choose:\n[1]Rock\n[2]Paper\n[3]Scissors\n> "))
-    userChoice = userChoice.lower()
-    if userChoice == "1" or userChoice == "rock":
-        Int_userChoice = 1
-    elif userChoice == "2" or userChoice == "paper":
-        Int_userChoice = 2
-    elif userChoice == "3" or userChoice == "scissors":
-        Int_userChoice = 3
-    else:
-        print("Invalid input, try again.\n")
-        #quit()
+    userChoice = ''
+
+    while True:
+        userChoice = str(input("Choose:\n[1]Rock\n[2]Paper\n[3]Scissors\n> "))
+        userChoice = userChoice.lower()
+
+        if userChoice == "1" or userChoice == "rock":
+            Int_userChoice = 1
+            break
+
+        elif userChoice == "2" or userChoice == "paper":
+            Int_userChoice = 2
+            break
+
+        elif userChoice == "3" or userChoice == "scissors":
+            Int_userChoice = 3
+            break
+
+        else:
+            print("Invalid input, try again.\n")
     
     return Int_userChoice
 
@@ -49,13 +61,14 @@ def npc_choice():
 
 def compare_choices(npcChoice, userChoice):
     #rock logic
+    result = ''
     if userChoice == 1:
         if npcChoice == 1:
             result = 'Draw'
         elif npcChoice == 2:
             result = 'Loss'
         else:
-            result = 'Victory'
+            result = 'Victory!'
     #paper logic
     elif userChoice == 2:
         if npcChoice == 1:
@@ -104,7 +117,7 @@ def FileIn(Name):
         for line in f:
             strInput = line.split()
             conditions.append(strInput[6])
-    wins = conditions.count("Victory")
+    wins = conditions.count("Victory!")
     losses = conditions.count("Loss")
     draws = conditions.count("Draw")
     games = len(conditions)
