@@ -1,0 +1,49 @@
+def npc_choice():
+    # make the npc pick one and return it to 
+    # the function that decides win/loss/tie
+    pass # this is for avoiding errors right now
+
+def main_Menu():
+    while True:
+        print('''Do you want to play a game?
+        [1] Yes
+        [2] No''')
+        choice = input("---> ")
+
+        try:
+            choice = int(choice)
+            start_game(choice)
+        except ValueError:
+            print("Please try again.. that's not an option")
+
+def start_game(choice):
+    if choice == 1:
+        name = input("What name would you like to go by?\n")
+        # use name for filename
+        actual_game(name)
+        
+    elif choice == 2:
+        print("I guess you are too scared to lose, maybe next time.")
+        exit()
+    
+    else:
+        print("That isn't a valid option bub...")
+        main_Menu()
+
+def actual_game(name):
+    #get that game number from some function elsewhere
+    while True:
+        print("***Game Number: (game num)***")
+        print("1 for Rock, 2 for Paper, 3 for Scissors")
+        usrChoice = input("---> ")
+        try:
+            usrChoice = int(usrChoice)
+            pass
+            #continue into game stuff
+        except ValueError:
+            print("Hey pick one of those options...")
+
+def main():
+    main_Menu()
+
+main()
