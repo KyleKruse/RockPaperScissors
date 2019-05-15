@@ -2,39 +2,51 @@
 import random
 
 def main_Menu():
-    play = str(input("Do you want to play a game?")
+    looper = True
+    gameNumber = 1 
+    play = str(input("Do you want to play a game?\t"))
     play = play.lower()
     if ((play == 'yes') or (play == 'y')):
         name = str(input("What name would you like to go by?\n"))
-        userChoice = getChoice()
-        npcChoice = npc_choice()
-        start_game(choice)
-        file_output(name)
+        while looper == True:
+            userChoice = getChoice() #int
+            npcChoice = npc_choice() #int
+            FileOut(compare_choices(npcChoice, userChoice), name, gameNumber)
+            play_again = str(input("Do you want to play again\t"))
+            if play_again.lower == 'yes' or play_again == 'y':
+                gameNumber+=1
+            else:
+                FileIn(name)
+                looper = False 
+                quit()
     else:
         print("Cya")
         quit()
+
             
 def getChoice():
     Int_userChoice = 0
-    userChoice = str(input("Choose rock, paper, or scissors\t"))
+    userChoice = str(input("Choose:\n[1]Rock\n[2]Paper\n[3]Scissors\n> "))
     userChoice = userChoice.lower()
-    if userChoice == "rock":
+    if userChoice == "1" or userChoice == "rock":
         Int_userChoice = 1
-    elif userChoice == "paper":
+    elif userChoice == "2" or userChoice == "paper":
         Int_userChoice = 2
-    elif userChoice == 'scissors':
+    elif userChoice == "3" or userChoice == "scissors":
         Int_userChoice = 3
     else:
         print("Invalid input, try again.\n")
-        getChoice()
+        #quit()
     
     return Int_userChoice
-            
+
+
 def npc_choice():
     r = random.SystemRandom()
     npc = r.randint(1, 3)
     return npc
     
+
 def compare_choices(npcChoice, userChoice):
     #rock logic
     if userChoice == 1:
@@ -61,23 +73,8 @@ def compare_choices(npcChoice, userChoice):
         else:
             result = 'Draw'
 
+    return result
 
-
-    return result            
-
-def start_game(choice):
-    if choice == 1:
-        name = input("What name would you like to go by?\n")
-        # use name for filename
-        actual_game(name)
-        
-    elif choice == 2:
-        print("I guess you are too scared to lose, maybe next time.")
-        exit()
-    
-    else:
-        print("That isn't a valid option bub...")
-        main_Menu()
 
 def actual_game(name):
     #get that game number from some function elsewhere
@@ -92,7 +89,28 @@ def actual_game(name):
         except ValueError:
             print("Hey pick one of those options...")
 
-def main():
-    main_Menu()
 
-main()
+def FileOut(Result, Name, gameNumber):
+    with open(Name + ".txt", "a") as f:
+        String = "The result of game #" + str(gameNumber) + " is " + Result + "\n"
+        f.write(String)
+    print(String)
+
+
+
+def FileIn(Name):
+    conditions = []
+    with open(Name + ".txt", "r") as f:
+        for line in f:
+            strInput = line.split()
+            conditions.append(strInput[6])
+    wins = conditions.count("Victory")
+    losses = conditions.count("Loss")
+    draws = conditions.count("Draw")
+    games = len(conditions)
+
+    returnString = "Games - %d\nWins - %d\nLosses - %d\nDraws - %d\n" % (games, wins, losses, draws)
+    print(returnString)
+
+
+main_Menu()
