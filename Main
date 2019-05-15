@@ -15,7 +15,8 @@ def main_Menu():
             game = compare_choices(npcChoice, userChoice)
             FileOut(game, name, gameNumber)
             play_again = str(input("Do you want to play again\t"))
-            if play_again.lower == 'yes' or play_again == 'y':
+            play_again.lower()
+            if play_again == 'yes' or play_again == 'y':
                 gameNumber+=1
             else:
                 if gameNumber > 0:
