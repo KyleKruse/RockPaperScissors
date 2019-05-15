@@ -1,20 +1,69 @@
-def npc_choice():
-    # make the npc pick one and return it to 
-    # the function that decides win/loss/tie
-    pass # this is for avoiding errors right now
+#! /usr/bin/env python3
+import random
 
 def main_Menu():
-    while True:
-        print('''Do you want to play a game?
-        [1] Yes
-        [2] No''')
-        choice = input("---> ")
+    play = str(input("Do you want to play a game?")
+    play = play.lower()
+    if ((play == 'yes') or (play == 'y')):
+        name = str(input("What name would you like to go by?\n"))
+        userChoice = getChoice()
+        npcChoice = npc_choice()
+        start_game(choice)
+        file_output(name)
+    else:
+        print("Cya")
+        quit()
+            
+def getChoice():
+    Int_userChoice = 0
+    userChoice = str(input("Choose rock, paper, or scissors\t"))
+    userChoice = userChoice.lower()
+    if userChoice == "rock":
+        Int_userChoice = 1
+    elif userChoice == "paper":
+        Int_userChoice = 2
+    elif userChoice == 'scissors':
+        Int_userChoice = 3
+    else:
+        print("Invalid input, try again.\n")
+        getChoice()
+    
+    return Int_userChoice
+            
+def npc_choice():
+    r = random.SystemRandom()
+    npc = r.randint(1, 3)
+    return npc
+    
+def compare_choices(npcChoice, userChoice):
+    #rock logic
+    if userChoice == 1:
+        if npcChoice == 1:
+            result = 'Draw'
+        elif npcChoice == 2:
+            result = 'Loss'
+        else:
+            result = 'Victory'
+    #paper logic
+    elif userChoice == 2:
+        if npcChoice == 1:
+            result = 'Victory!'
+        elif npcChoice == 2:
+            result = 'Draw'
+        else:
+            result = 'Loss'
+    #scissors logic
+    elif userChoice == 3:
+        if npcChoice == 1:
+            result = 'Loss'
+        elif npcChoice == 2:
+            result = 'Victory!'
+        else:
+            result = 'Draw'
 
-        try:
-            choice = int(choice)
-            start_game(choice)
-        except ValueError:
-            print("Please try again.. that's not an option")
+
+
+    return result            
 
 def start_game(choice):
     if choice == 1:
